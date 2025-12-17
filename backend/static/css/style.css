@@ -1,0 +1,388 @@
+/* Общие стили */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+body {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    min-height: 100vh;
+    padding: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.container {
+    width: 100%;
+    max-width: 1400px;
+    background: white;
+    border-radius: 20px;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+    overflow: hidden;
+    margin: 20px;
+}
+
+/* Шапка */
+header {
+    background: linear-gradient(to right, #4a6fa5, #3d5a80);
+    color: white;
+    padding: 30px;
+    text-align: center;
+}
+
+header h1 {
+    font-size: 2.5em;
+    margin-bottom: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 15px;
+}
+
+header p {
+    font-size: 1.1em;
+    opacity: 0.9;
+}
+
+/* Основной контент */
+.main-content {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 30px;
+    padding: 30px;
+}
+
+@media (max-width: 1024px) {
+    .main-content {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* Секции */
+.test-section, .history-section {
+    background: #f8f9fa;
+    border-radius: 15px;
+    padding: 25px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+}
+
+.test-section h2, .history-section h2 {
+    color: #2c3e50;
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+/* Кнопки */
+.test-controls {
+    text-align: center;
+    margin: 30px 0;
+}
+
+.test-btn {
+    background: linear-gradient(to right, #4CAF50, #45a049);
+    color: white;
+    border: none;
+    padding: 15px 40px;
+    font-size: 18px;
+    border-radius: 50px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-weight: bold;
+    box-shadow: 0 5px 15px rgba(76, 175, 80, 0.4);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+}
+
+.test-btn:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 20px rgba(76, 175, 80, 0.6);
+}
+
+.test-btn:disabled {
+    background: #cccccc;
+    cursor: not-allowed;
+    transform: none;
+    box-shadow: none;
+}
+
+#refreshHistory {
+    padding: 10px 20px;
+    font-size: 14px;
+    margin-bottom: 20px;
+}
+
+/* Прогресс-бар */
+.progress-container {
+    margin: 25px 0;
+}
+
+.progress-bar {
+    height: 12px;
+    background: #e0e0e0;
+    border-radius: 6px;
+    overflow: hidden;
+    margin-bottom: 10px;
+}
+
+.progress-fill {
+    height: 100%;
+    background: linear-gradient(to right, #4a6fa5, #3d5a80);
+    width: 0%;
+    transition: width 0.3s ease;
+    border-radius: 6px;
+}
+
+.progress-text {
+    text-align: center;
+    color: #666;
+    font-size: 14px;
+    min-height: 20px;
+}
+
+/* Карточки результатов */
+.results-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+    margin: 25px 0;
+}
+
+@media (max-width: 768px) {
+    .results-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+.result-card {
+    background: white;
+    border-radius: 15px;
+    padding: 25px;
+    text-align: center;
+    border: 2px solid #e0e0e0;
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+.result-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 15px 30px rgba(0,0,0,0.1);
+    border-color: #4a6fa5;
+}
+
+.result-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: linear-gradient(to right, #4a6fa5, #3d5a80);
+}
+
+.result-icon {
+    font-size: 2.5em;
+    color: #4a6fa5;
+    margin-bottom: 15px;
+}
+
+.result-card h3 {
+    color: #333;
+    margin-bottom: 10px;
+    font-size: 16px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.result-value {
+    font-size: 36px;
+    font-weight: bold;
+    color: #2c3e50;
+    margin: 10px 0;
+}
+
+.result-unit {
+    color: #7f8c8d;
+    font-size: 14px;
+    margin-top: 5px;
+}
+
+/* Сообщения статуса */
+.status-message {
+    text-align: center;
+    padding: 15px;
+    margin: 15px 0;
+    border-radius: 10px;
+    font-weight: bold;
+    animation: slideIn 0.3s ease;
+}
+
+@keyframes slideIn {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.status-success {
+    background: #d4edda;
+    color: #155724;
+    border: 1px solid #c3e6cb;
+}
+
+.status-error {
+    background: #f8d7da;
+    color: #721c24;
+    border: 1px solid #f5c6cb;
+}
+
+.status-info {
+    background: #d1ecf1;
+    color: #0c5460;
+    border: 1px solid #bee5eb;
+}
+
+/* История и таблица */
+.table-container {
+    overflow-x: auto;
+    margin-top: 20px;
+    border-radius: 10px;
+    border: 1px solid #e0e0e0;
+}
+
+.history-table {
+    width: 100%;
+    border-collapse: collapse;
+    min-width: 600px;
+}
+
+.history-table th {
+    background: #4a6fa5;
+    color: white;
+    font-weight: bold;
+    padding: 15px;
+    text-align: center;
+    position: sticky;
+    top: 0;
+}
+
+.history-table td {
+    padding: 12px 15px;
+    text-align: center;
+    border-bottom: 1px solid #ddd;
+}
+
+.history-table tr:hover {
+    background: #f5f5f5;
+}
+
+.history-table tr:nth-child(even) {
+    background: #f9f9f9;
+}
+
+/* График */
+.chart-container {
+    margin: 30px 0;
+    height: 250px;
+    position: relative;
+}
+
+/* Анимация загрузки */
+.loading {
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    border: 3px solid #f3f3f3;
+    border-top: 3px solid #4a6fa5;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+/* Подвал */
+footer {
+    background: #2c3e50;
+    color: white;
+    text-align: center;
+    padding: 20px;
+    margin-top: 30px;
+}
+
+footer p {
+    opacity: 0.8;
+    font-size: 0.9em;
+}
+
+/* Дополнительные стили для лучшего UX */
+.result-card.good {
+    border-color: #4CAF50;
+}
+
+.result-card.good .result-value {
+    color: #4CAF50;
+}
+
+.result-card.average {
+    border-color: #FF9800;
+}
+
+.result-card.average .result-value {
+    color: #FF9800;
+}
+
+.result-card.poor {
+    border-color: #F44336;
+}
+
+.result-card.poor .result-value {
+    color: #F44336;
+}
+
+/* Адаптивность */
+@media (max-width: 480px) {
+    .container {
+        margin: 10px;
+        border-radius: 10px;
+    }
+
+    header {
+        padding: 20px;
+    }
+
+    header h1 {
+        font-size: 1.8em;
+    }
+
+    .main-content {
+        padding: 15px;
+        gap: 20px;
+    }
+
+    .test-section, .history-section {
+        padding: 20px;
+    }
+
+    .test-btn {
+        padding: 12px 25px;
+        font-size: 16px;
+    }
+
+    .result-value {
+        font-size: 28px;
+    }
+}

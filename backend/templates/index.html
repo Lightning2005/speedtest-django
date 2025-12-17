@@ -1,0 +1,104 @@
+{% load static %}
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🌐 SpeedTest Pro</title>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1><i class="fas fa-tachometer-alt"></i> SpeedTest Pro</h1>
+            <p>Профессиональное измерение скорости интернет-соединения</p>
+        </header>
+
+        <div class="main-content">
+            <div class="test-section">
+                <h2><i class="fas fa-play-circle"></i> Измерение скорости</h2>
+
+                <div class="test-controls">
+                    <button class="test-btn" id="startTest">
+                        <i class="fas fa-play"></i> Начать тест скорости
+                    </button>
+                </div>
+
+                <div class="progress-container">
+                    <div class="progress-bar">
+                        <div class="progress-fill" id="progressFill"></div>
+                    </div>
+                    <div class="progress-text" id="progressText">Готов к тестированию</div>
+                </div>
+
+                <div id="statusMessage" class="status-message" style="display: none;"></div>
+
+                <div class="results-grid">
+                    <div class="result-card">
+                        <div class="result-icon">
+                            <i class="fas fa-signal"></i>
+                        </div>
+                        <h3>Ping</h3>
+                        <div class="result-value" id="pingValue">-</div>
+                        <div class="result-unit">миллисекунды</div>
+                    </div>
+
+                    <div class="result-card">
+                        <div class="result-icon">
+                            <i class="fas fa-download"></i>
+                        </div>
+                        <h3>Скачивание</h3>
+                        <div class="result-value" id="downloadValue">-</div>
+                        <div class="result-unit">Мбит/с</div>
+                    </div>
+
+                    <div class="result-card">
+                        <div class="result-icon">
+                            <i class="fas fa-upload"></i>
+                        </div>
+                        <h3>Загрузка</h3>
+                        <div class="result-value" id="uploadValue">-</div>
+                        <div class="result-unit">Мбит/с</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="history-section">
+                <h2><i class="fas fa-history"></i> История измерений</h2>
+                <button class="test-btn" id="refreshHistory">
+                    <i class="fas fa-sync-alt"></i> Обновить историю
+                </button>
+
+                <div class="chart-container">
+                    <canvas id="speedChart"></canvas>
+                </div>
+
+                <div class="table-container">
+                    <table class="history-table" id="historyTable">
+                        <thead>
+                            <tr>
+                                <th>Дата</th>
+                                <th>Ping (мс)</th>
+                                <th>Download (Мбит/с)</th>
+                                <th>Upload (Мбит/с)</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <!-- История будет загружена здесь -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <footer>
+            <p>© 2024 SpeedTest Pro | Для курсовой работы по разработке ПО</p>
+        </footer>
+    </div>
+
+    <!-- Подключаем Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <!-- Подключаем наш JavaScript -->
+    <script src="{% static 'js/script.js' %}"></script>
+</body>
+</html>
