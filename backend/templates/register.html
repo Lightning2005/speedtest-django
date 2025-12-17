@@ -1,0 +1,88 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Регистрация - SpeedTest Pro</title>
+    <link rel="stylesheet" href="{% static 'css/auth.css' %}">
+</head>
+<body>
+    <div class="auth-wrapper">
+        <div class="auth-box">
+            <h1 class="auth-title">📝 Создание аккаунта</h1>
+
+            {% if form.errors %}
+                <div class="error-list">
+                    <ul>
+                    {% for field in form %}
+                        {% for error in field.errors %}
+                            <li><strong>{{ field.label }}:</strong> {{ error }}</li>
+                        {% endfor %}
+                    {% endfor %}
+                    {% for error in form.non_field_errors %}
+                        <li>{{ error }}</li>
+                    {% endfor %}
+                    </ul>
+                </div>
+            {% endif %}
+
+            <form method="post" id="registerForm">
+                {% csrf_token %}
+
+                <div class="form-group">
+                    <label for="id_username">Имя пользователя:</label>
+                    <input type="text" name="username" id="id_username" class="form-control"
+                           placeholder="Придумайте логин" required
+                           pattern="[a-zA-Z0-9_]+" title="Только буквы, цифры и символ _">
+                    <span class="helptext">
+                        • От 3 до 30 символов<br>
+                        • Только буквы, цифры и символ _<br>
+                        • Будет использоваться для входа
+                    </span>
+                </div>
+
+                <div class="form-group">
+                    <label for="id_email">Email адрес:</label>
+                    <input type="email" name="email" id="id_email" class="form-control"
+                           placeholder="example@mail.com" required>
+                    <span class="helptext">
+                        • Введите действующий email<br>
+                        • На него придут уведомления
+                    </span>
+                </div>
+
+                <div class="form-group">
+                    <label for="id_password1">Пароль:</label>
+                    <input type="password" name="password1" id="id_password1" class="form-control"
+                           placeholder="Создайте надежный пароль" required
+                           minlength="8">
+                    <span class="helptext">
+                        • Минимум 8 символов<br>
+                        • Должен содержать заглавные буквы и цифры<br>
+                        • Не используйте простые пароли
+                    </span>
+                </div>
+
+                <div class="form-group">
+                    <label for="id_password2">Подтверждение пароля:</label>
+                    <input type="password" name="password2" id="id_password2" class="form-control"
+                           placeholder="Повторите пароль" required>
+                    <span class="helptext">
+                        • Введите тот же пароль для проверки
+                    </span>
+                </div>
+
+                <button type="submit" class="btn-auth secondary">Зарегистрироваться</button>
+            </form>
+
+            <div class="auth-links">
+                <p>Уже есть аккаунт? <a href="{% url 'login' %}">Войти в систему</a></p>
+                <p><a href="/">← Вернуться на главную</a></p>
+            </div>
+        </div>
+    </div>
+
+    <script src="{% static 'js/auth.js' %}"></script>
+</body>
+</html>

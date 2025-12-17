@@ -1,10 +1,30 @@
 from django.http import JsonResponse, HttpResponse
 from django.views.decorators.csrf import csrf_exempt
 from .models import SpeedTestResult
+from django.contrib.auth import login, logout
+from django.shortcuts import render, redirect
+from .forms import RegisterForm
 import time
 import random
 import json
 
+def register_view(request):
+    if request.method == 'POST':
+        form = RegisterForm(request.POST)
+        if form.is_valid():
+            user = form.save()
+            login(request, user)
+            return redirect('/')
+    else:
+        form = RegisterForm()
+    return render(request, 'registration/register.html', {'form': form})
+
+# Если есть кастомная вьюха для главной
+def home_view(request):
+    context = {
+        'user': request.user,
+    }
+    return render(request, 'index.html', context)
 
 def ping_test(request):
     """Тест ping"""
@@ -66,6 +86,7 @@ def save_result(request):
             upload = max(0, min(float(data.get('upload', 0)), 2000))  # 0-2000 Мбит/с
 
             result = SpeedTestResult(
+                user=request.user if request.user.is_authenticated else None,
                 ip_address=request.META.get('REMOTE_ADDR'),
                 ping=ping,
                 download=download,

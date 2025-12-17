@@ -249,8 +249,11 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.2/howto/static-files/
 
-STATIC_URL = 'static/'
-STATICFILES_DIRS = [BASE_DIR / 'static']  # <-- ДОБАВИЛ
+STATIC_URL = '/static/'
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')  # <-- Добавь эту строку
+STATICFILES_DIRS = [
+    os.path.join(BASE_DIR, 'static'),
+]
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
@@ -259,3 +262,8 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # CORS settings
 CORS_ALLOW_ALL_ORIGINS = True  # <-- ДОБАВИЛ в самый конец файла
+
+# Настройки авторизации
+LOGIN_REDIRECT_URL = '/'  # Куда перенаправлять после входа
+LOGOUT_REDIRECT_URL = '/'  # Куда перенаправлять после выхода
+LOGIN_URL = '/api/login/'  # URL страницы входа

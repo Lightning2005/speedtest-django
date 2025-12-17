@@ -1,0 +1,176 @@
+/* auth.css - Стили для страниц авторизации */
+.auth-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    padding: 20px;
+}
+
+.auth-box {
+    background: white;
+    padding: 40px;
+    border-radius: 15px;
+    box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+    width: 100%;
+    max-width: 400px;
+    animation: slideUp 0.5s ease;
+}
+
+.auth-title {
+    text-align: center;
+    margin-bottom: 30px;
+    color: #333;
+    font-size: 28px;
+}
+
+.form-group {
+    margin-bottom: 20px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 8px;
+    color: #555;
+    font-weight: 600;
+    font-size: 14px;
+}
+
+.form-control {
+    width: 100%;
+    padding: 14px 16px;
+    border: 2px solid #e0e0e0;
+    border-radius: 8px;
+    font-size: 16px;
+    transition: all 0.3s;
+    background: #fafafa;
+}
+
+.form-control:focus {
+    border-color: #4a6fa5;
+    background: white;
+    box-shadow: 0 0 0 3px rgba(74, 111, 165, 0.1);
+    outline: none;
+}
+
+.form-control.error {
+    border-color: #f44336;
+    background: #fff5f5;
+}
+
+.btn-auth {
+    width: 100%;
+    padding: 16px;
+    background: linear-gradient(to right, #4CAF50, #45a049);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.3s;
+    margin-top: 10px;
+}
+
+.btn-auth:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(76, 175, 80, 0.4);
+}
+
+.btn-auth:active {
+    transform: translateY(0);
+}
+
+.btn-auth.secondary {
+    background: linear-gradient(to right, #2196F3, #1976D2);
+}
+
+.btn-auth.secondary:hover {
+    box-shadow: 0 5px 15px rgba(33, 150, 243, 0.4);
+}
+
+.auth-links {
+    text-align: center;
+    margin-top: 25px;
+    padding-top: 20px;
+    border-top: 1px solid #eee;
+}
+
+.auth-links a {
+    color: #4a6fa5;
+    text-decoration: none;
+    font-weight: 500;
+    margin: 0 10px;
+}
+
+.auth-links a:hover {
+    text-decoration: underline;
+}
+
+.error-message {
+    color: #f44336;
+    background: #ffebee;
+    padding: 12px 15px;
+    border-radius: 8px;
+    margin-bottom: 20px;
+    border: 1px solid #ffcdd2;
+    font-size: 14px;
+}
+
+.error-list {
+    color: #f44336;
+    background: #ffebee;
+    padding: 15px;
+    border-radius: 8px;
+    margin-bottom: 20px;
+    border: 1px solid #ffcdd2;
+}
+
+.error-list ul {
+    margin: 0;
+    padding-left: 20px;
+    font-size: 14px;
+}
+
+.helptext {
+    display: block;
+    font-size: 12px;
+    color: #666;
+    margin-top: 5px;
+    line-height: 1.4;
+}
+
+.helptext ul {
+    margin: 5px 0 0 15px;
+    padding: 0;
+}
+
+/* Анимации */
+@keyframes slideUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Адаптивность */
+@media (max-width: 480px) {
+    .auth-box {
+        padding: 25px;
+        margin: 15px;
+    }
+
+    .auth-title {
+        font-size: 24px;
+    }
+
+    .form-control {
+        padding: 12px 14px;
+        font-size: 15px;
+    }
+}

@@ -10,8 +10,32 @@
 <body>
     <div class="container">
         <header>
-            <h1><i class="fas fa-tachometer-alt"></i> SpeedTest Pro</h1>
-            <p>Профессиональное измерение скорости интернет-соединения</p>
+            <div class="header-top">
+                <div class="logo">
+                    <h1><i class="fas fa-tachometer-alt"></i> SpeedTest Pro</h1>
+                    <p>Профессиональное измерение скорости интернет-соединения</p>
+                </div>
+
+                <div class="user-auth">
+                    {% if user.is_authenticated %}
+                        <div class="user-info">
+                            <span class="welcome">👋 Привет, <strong>{{ user.username }}</strong>!</span>
+                            <a href="{% url 'logout' %}" class="auth-btn logout-btn">
+                                <i class="fas fa-sign-out-alt"></i> Выйти
+                            </a>
+                        </div>
+                    {% else %}
+                        <div class="auth-buttons">
+                            <a href="{% url 'login' %}" class="auth-btn login-btn">
+                                <i class="fas fa-sign-in-alt"></i> Войти
+                            </a>
+                            <a href="{% url 'register' %}" class="auth-btn register-btn">
+                                <i class="fas fa-user-plus"></i> Регистрация
+                            </a>
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
         </header>
 
         <div class="main-content">

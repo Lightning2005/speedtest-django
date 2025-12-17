@@ -47,6 +47,114 @@ header p {
     opacity: 0.9;
 }
 
+/* Стили для блока авторизации */
+.header-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+
+.logo {
+    flex: 1;
+    min-width: 300px;
+}
+
+.user-auth {
+    display: flex;
+    align-items: center;
+}
+
+.auth-buttons {
+    display: flex;
+    gap: 15px;
+    flex-wrap: wrap;
+}
+
+.auth-btn {
+    padding: 12px 24px;
+    border-radius: 50px;
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 16px;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    border: 2px solid transparent;
+}
+
+.auth-btn:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+}
+
+.login-btn {
+    background: white;
+    color: #4a6fa5;
+    border-color: white;
+}
+
+.login-btn:hover {
+    background: #f8f9fa;
+}
+
+.register-btn {
+    background: linear-gradient(to right, #4CAF50, #45a049);
+    color: white;
+    border-color: #4CAF50;
+}
+
+.logout-btn {
+    background: linear-gradient(to right, #f44336, #d32f2f);
+    color: white;
+    border-color: #f44336;
+}
+
+.user-info {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.welcome {
+    color: white;
+    font-size: 18px;
+    text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+}
+
+.welcome strong {
+    color: #FFD700;
+}
+
+/* Мобильная адаптация */
+@media (max-width: 768px) {
+    .header-top {
+        flex-direction: column;
+        text-align: center;
+        gap: 15px;
+    }
+
+    .auth-buttons {
+        justify-content: center;
+        width: 100%;
+    }
+
+    .user-info {
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .auth-btn {
+        padding: 10px 20px;
+        font-size: 14px;
+    }
+}
+
 /* Основной контент */
 .main-content {
     display: grid;
