@@ -2,4 +2,39 @@
 venv/
 .venv/
 env/
-ENV/
+
+# Database
+*.sqlite3
+*.db
+db.sqlite3
+
+# Python cache
+__pycache__/
+*.py[cod]
+*.class
+*.so
+.Python
+build/
+*.egg-info/
+
+# Django
+staticfiles/
+media/
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# Logs
+*.log
