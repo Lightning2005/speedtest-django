@@ -1,3 +1,19 @@
+/* === SpeedTest Pro - Чёрно-жёлтая тема === */
+
+/* Цветовая схема */
+:root {
+    --black: #000000;
+    --dark-gray: #1a1a1a;
+    --gray: #2d2d2d;
+    --light-gray: #404040;
+    --yellow: #FFD700;
+    --gold: #FFC400;
+    --light-yellow: #FFED00;
+    --white: #FFFFFF;
+    --off-white: #f5f5f5;
+    --shadow: rgba(255, 215, 0, 0.2);
+}
+
 /* Общие стили */
 * {
     margin: 0;
@@ -7,30 +23,33 @@
 }
 
 body {
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    background: linear-gradient(135deg, #0a0a0a 0%, #1a1a1a 100%);
     min-height: 100vh;
     padding: 20px;
     display: flex;
     justify-content: center;
     align-items: center;
+    color: var(--white);
 }
 
 .container {
     width: 100%;
     max-width: 1400px;
-    background: white;
+    background: var(--dark-gray);
     border-radius: 20px;
-    box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+    box-shadow: 0 20px 60px rgba(255, 215, 0, 0.15);
     overflow: hidden;
     margin: 20px;
+    border: 2px solid var(--gray);
 }
 
 /* Шапка */
 header {
-    background: linear-gradient(to right, #4a6fa5, #3d5a80);
-    color: white;
+    background: linear-gradient(to right, var(--black), var(--gray));
+    color: var(--yellow);
     padding: 30px;
     text-align: center;
+    border-bottom: 3px solid var(--yellow);
 }
 
 header h1 {
@@ -40,14 +59,16 @@ header h1 {
     align-items: center;
     justify-content: center;
     gap: 15px;
+    text-shadow: 0 2px 4px rgba(0,0,0,0.5);
 }
 
 header p {
     font-size: 1.1em;
+    color: var(--off-white);
     opacity: 0.9;
 }
 
-/* Стили для блока авторизации */
+/* Блок авторизации */
 .header-top {
     display: flex;
     justify-content: space-between;
@@ -83,34 +104,49 @@ header p {
     align-items: center;
     justify-content: center;
     gap: 8px;
-    border: 2px solid transparent;
+    border: 2px solid var(--yellow);
+    background: transparent;
+    color: var(--yellow);
 }
 
 .auth-btn:hover {
     transform: translateY(-3px);
-    box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+    box-shadow: 0 8px 20px var(--shadow);
+    background: var(--yellow);
+    color: var(--black);
 }
 
 .login-btn {
-    background: white;
-    color: #4a6fa5;
-    border-color: white;
+    background: var(--yellow);
+    color: var(--black);
+    border-color: var(--yellow);
 }
 
 .login-btn:hover {
-    background: #f8f9fa;
+    background: var(--light-yellow);
+    border-color: var(--light-yellow);
 }
 
 .register-btn {
-    background: linear-gradient(to right, #4CAF50, #45a049);
-    color: white;
-    border-color: #4CAF50;
+    background: transparent;
+    color: var(--yellow);
+    border-color: var(--yellow);
+}
+
+.register-btn:hover {
+    background: var(--yellow);
+    color: var(--black);
 }
 
 .logout-btn {
-    background: linear-gradient(to right, #f44336, #d32f2f);
-    color: white;
-    border-color: #f44336;
+    background: transparent;
+    color: #ff4444;
+    border-color: #ff4444;
+}
+
+.logout-btn:hover {
+    background: #ff4444;
+    color: var(--white);
 }
 
 .user-info {
@@ -122,37 +158,13 @@ header p {
 }
 
 .welcome {
-    color: white;
+    color: var(--yellow);
     font-size: 18px;
     text-shadow: 0 2px 4px rgba(0,0,0,0.3);
 }
 
 .welcome strong {
-    color: #FFD700;
-}
-
-/* Мобильная адаптация */
-@media (max-width: 768px) {
-    .header-top {
-        flex-direction: column;
-        text-align: center;
-        gap: 15px;
-    }
-
-    .auth-buttons {
-        justify-content: center;
-        width: 100%;
-    }
-
-    .user-info {
-        flex-direction: column;
-        gap: 10px;
-    }
-
-    .auth-btn {
-        padding: 10px 20px;
-        font-size: 14px;
-    }
+    color: var(--light-yellow);
 }
 
 /* Основной контент */
@@ -161,6 +173,7 @@ header p {
     grid-template-columns: 1fr 1fr;
     gap: 30px;
     padding: 30px;
+    background: var(--dark-gray);
 }
 
 @media (max-width: 1024px) {
@@ -171,18 +184,79 @@ header p {
 
 /* Секции */
 .test-section, .history-section {
-    background: #f8f9fa;
+    background: var(--gray);
     border-radius: 15px;
     padding: 25px;
-    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+    border: 1px solid var(--light-gray);
 }
 
 .test-section h2, .history-section h2 {
-    color: #2c3e50;
+    color: var(--yellow);
     margin-bottom: 20px;
     display: flex;
     align-items: center;
     gap: 10px;
+    border-bottom: 2px solid var(--yellow);
+    padding-bottom: 10px;
+}
+
+/* Информация о подключении */
+.connection-info {
+    background: var(--gray);
+    border-radius: 12px;
+    padding: 20px;
+    margin: 20px 0;
+    border-left: 5px solid var(--yellow);
+    border: 1px solid var(--light-gray);
+    box-shadow: 0 3px 10px rgba(0,0,0,0.2);
+}
+
+.connection-info h3 {
+    color: var(--yellow);
+    margin-bottom: 15px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 18px;
+}
+
+.info-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+}
+
+@media (max-width: 768px) {
+    .info-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+.info-item {
+    display: flex;
+    flex-direction: column;
+    padding: 15px;
+    background: var(--dark-gray);
+    border-radius: 8px;
+    border: 1px solid var(--light-gray);
+}
+
+.info-label {
+    font-weight: bold;
+    color: var(--yellow);
+    font-size: 14px;
+    margin-bottom: 8px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+#ipAddress, #provider, #location {
+    font-size: 16px;
+    color: var(--white);
+    font-weight: 500;
+    word-break: break-word;
 }
 
 /* Кнопки */
@@ -192,8 +266,8 @@ header p {
 }
 
 .test-btn {
-    background: linear-gradient(to right, #4CAF50, #45a049);
-    color: white;
+    background: linear-gradient(to right, var(--yellow), var(--gold));
+    color: var(--black);
     border: none;
     padding: 15px 40px;
     font-size: 18px;
@@ -201,7 +275,7 @@ header p {
     cursor: pointer;
     transition: all 0.3s ease;
     font-weight: bold;
-    box-shadow: 0 5px 15px rgba(76, 175, 80, 0.4);
+    box-shadow: 0 5px 15px rgba(255, 215, 0, 0.4);
     display: inline-flex;
     align-items: center;
     justify-content: center;
@@ -210,11 +284,13 @@ header p {
 
 .test-btn:hover {
     transform: translateY(-3px);
-    box-shadow: 0 8px 20px rgba(76, 175, 80, 0.6);
+    box-shadow: 0 8px 20px rgba(255, 215, 0, 0.6);
+    background: linear-gradient(to right, var(--gold), var(--light-yellow));
 }
 
 .test-btn:disabled {
-    background: #cccccc;
+    background: var(--light-gray);
+    color: var(--off-white);
     cursor: not-allowed;
     transform: none;
     box-shadow: none;
@@ -233,7 +309,7 @@ header p {
 
 .progress-bar {
     height: 12px;
-    background: #e0e0e0;
+    background: var(--light-gray);
     border-radius: 6px;
     overflow: hidden;
     margin-bottom: 10px;
@@ -241,7 +317,7 @@ header p {
 
 .progress-fill {
     height: 100%;
-    background: linear-gradient(to right, #4a6fa5, #3d5a80);
+    background: linear-gradient(to right, var(--yellow), var(--gold));
     width: 0%;
     transition: width 0.3s ease;
     border-radius: 6px;
@@ -249,7 +325,7 @@ header p {
 
 .progress-text {
     text-align: center;
-    color: #666;
+    color: var(--off-white);
     font-size: 14px;
     min-height: 20px;
 }
@@ -269,11 +345,11 @@ header p {
 }
 
 .result-card {
-    background: white;
+    background: var(--dark-gray);
     border-radius: 15px;
     padding: 25px;
     text-align: center;
-    border: 2px solid #e0e0e0;
+    border: 2px solid var(--light-gray);
     transition: all 0.3s ease;
     position: relative;
     overflow: hidden;
@@ -281,8 +357,8 @@ header p {
 
 .result-card:hover {
     transform: translateY(-5px);
-    box-shadow: 0 15px 30px rgba(0,0,0,0.1);
-    border-color: #4a6fa5;
+    box-shadow: 0 15px 30px var(--shadow);
+    border-color: var(--yellow);
 }
 
 .result-card::before {
@@ -292,17 +368,17 @@ header p {
     left: 0;
     right: 0;
     height: 4px;
-    background: linear-gradient(to right, #4a6fa5, #3d5a80);
+    background: linear-gradient(to left, var(--yellow), var(--gold));
 }
 
 .result-icon {
     font-size: 2.5em;
-    color: #4a6fa5;
+    color: var(--yellow);
     margin-bottom: 15px;
 }
 
 .result-card h3 {
-    color: #333;
+    color: var(--off-white);
     margin-bottom: 10px;
     font-size: 16px;
     text-transform: uppercase;
@@ -312,12 +388,12 @@ header p {
 .result-value {
     font-size: 36px;
     font-weight: bold;
-    color: #2c3e50;
+    color: var(--yellow);
     margin: 10px 0;
 }
 
 .result-unit {
-    color: #7f8c8d;
+    color: var(--off-white);
     font-size: 14px;
     margin-top: 5px;
 }
@@ -325,11 +401,13 @@ header p {
 /* Сообщения статуса */
 .status-message {
     text-align: center;
-    padding: 15px;
-    margin: 15px 0;
-    border-radius: 10px;
+    padding: 20px;
+    margin: 20px 0;
+    border-radius: 12px;
     font-weight: bold;
     animation: slideIn 0.3s ease;
+    font-size: 16px;
+    line-height: 1.5;
 }
 
 @keyframes slideIn {
@@ -344,21 +422,32 @@ header p {
 }
 
 .status-success {
-    background: #d4edda;
-    color: #155724;
-    border: 1px solid #c3e6cb;
+    background: rgba(255, 215, 0, 0.15);
+    color: var(--yellow);
+    border: 1px solid var(--yellow);
 }
 
 .status-error {
-    background: #f8d7da;
-    color: #721c24;
-    border: 1px solid #f5c6cb;
+    background: rgba(255, 68, 68, 0.15);
+    color: #ff4444;
+    border: 1px solid #ff4444;
 }
 
 .status-info {
-    background: #d1ecf1;
-    color: #0c5460;
-    border: 1px solid #bee5eb;
+    background: rgba(255, 215, 0, 0.15);
+    color: var(--yellow);
+    border: 1px solid var(--yellow);
+}
+
+.status-info a {
+    color: var(--light-yellow);
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.status-info a:hover {
+    color: var(--white);
+    text-decoration: underline;
 }
 
 /* История и таблица */
@@ -366,7 +455,7 @@ header p {
     overflow-x: auto;
     margin-top: 20px;
     border-radius: 10px;
-    border: 1px solid #e0e0e0;
+    border: 1px solid var(--light-gray);
 }
 
 .history-table {
@@ -376,27 +465,29 @@ header p {
 }
 
 .history-table th {
-    background: #4a6fa5;
-    color: white;
+    background: var(--gray);
+    color: var(--yellow);
     font-weight: bold;
     padding: 15px;
     text-align: center;
     position: sticky;
     top: 0;
+    border-bottom: 2px solid var(--yellow);
 }
 
 .history-table td {
     padding: 12px 15px;
     text-align: center;
-    border-bottom: 1px solid #ddd;
+    border-bottom: 1px solid var(--light-gray);
+    color: var(--off-white);
 }
 
 .history-table tr:hover {
-    background: #f5f5f5;
+    background: rgba(255, 215, 0, 0.05);
 }
 
 .history-table tr:nth-child(even) {
-    background: #f9f9f9;
+    background: rgba(255, 255, 255, 0.03);
 }
 
 /* График */
@@ -404,6 +495,10 @@ header p {
     margin: 30px 0;
     height: 250px;
     position: relative;
+    background: var(--dark-gray);
+    border-radius: 10px;
+    padding: 15px;
+    border: 1px solid var(--light-gray);
 }
 
 /* Анимация загрузки */
@@ -411,8 +506,8 @@ header p {
     display: inline-block;
     width: 20px;
     height: 20px;
-    border: 3px solid #f3f3f3;
-    border-top: 3px solid #4a6fa5;
+    border: 3px solid var(--gray);
+    border-top: 3px solid var(--yellow);
     border-radius: 50%;
     animation: spin 1s linear infinite;
 }
@@ -424,11 +519,12 @@ header p {
 
 /* Подвал */
 footer {
-    background: #2c3e50;
-    color: white;
+    background: var(--black);
+    color: var(--off-white);
     text-align: center;
     padding: 20px;
     margin-top: 30px;
+    border-top: 2px solid var(--yellow);
 }
 
 footer p {
@@ -459,6 +555,17 @@ footer p {
 
 .result-card.poor .result-value {
     color: #F44336;
+}
+
+/* Анимация для тестирования */
+@keyframes pulse-yellow {
+    0% { box-shadow: 0 0 0 0 rgba(255, 215, 0, 0.7); }
+    70% { box-shadow: 0 0 0 10px rgba(255, 215, 0, 0); }
+    100% { box-shadow: 0 0 0 0 rgba(255, 215, 0, 0); }
+}
+
+.testing .result-card {
+    animation: pulse-yellow 2s infinite;
 }
 
 /* Адаптивность */
@@ -492,5 +599,10 @@ footer p {
 
     .result-value {
         font-size: 28px;
+    }
+
+    .auth-buttons {
+        flex-direction: column;
+        width: 100%;
     }
 }

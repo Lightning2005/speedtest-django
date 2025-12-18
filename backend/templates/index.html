@@ -3,7 +3,15 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>🌐 SpeedTest Pro</title>
+    <meta property="og:title" content="InternetPulse Pro">
+    <meta property="og:description" content="Измерение пульса вашего интернет-соединения">
+    <meta property="og:image" content="{% static 'android-chrome-512x512.png' %}">
+    <meta property="og:url" content="https://ваш-сайт.com">
+    <title>InternetPulse</title>
+    <link rel="apple-touch-icon" sizes="180x180" href="{% static 'apple-touch-icon.png' %}">
+    <link rel="icon" type="image/png" sizes="32x32" href="{% static 'favicon-32x32.png' %}">
+    <link rel="icon" type="image/png" sizes="16x16" href="{% static 'favicon-16x16.png' %}">
+    <link rel="manifest" href="{% static 'site.webmanifest' %}">
     <link rel="stylesheet" href="{% static 'css/style.css' %}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
@@ -12,8 +20,8 @@
         <header>
             <div class="header-top">
                 <div class="logo">
-                    <h1><i class="fas fa-tachometer-alt"></i> SpeedTest Pro</h1>
-                    <p>Профессиональное измерение скорости интернет-соединения</p>
+                    <h1><i class="fas fa-tachometer-alt"></i>💓 InternetPulse</h1>
+                    <p>Измерение скорости интернет-соединения</p>
                 </div>
 
                 <div class="user-auth">
@@ -46,6 +54,24 @@
                     <button class="test-btn" id="startTest">
                         <i class="fas fa-play"></i> Начать тест скорости
                     </button>
+                </div>
+
+                <div class="connection-info">
+                    <h3><i class="fas fa-info-circle"></i> Информация о подключении</h3>
+                    <div class="info-grid">
+                        <div class="info-item">
+                            <span class="info-label">🌐 IP-адрес:</span>
+                            <span id="ipAddress">Определение...</span>
+                        </div>
+                        <div class="info-item">
+                            <span class="info-label">🏢 Провайдер:</span>
+                            <span id="provider">Определение...</span>
+                        </div>
+                        <div class="info-item">
+                            <span class="info-label">📍Местоположение:</span>
+                            <span id="location">Определение...</span>
+                        </div>
+                    </div>
                 </div>
 
                 <div class="progress-container">
@@ -126,13 +152,11 @@
         </div>
 
         <footer>
-            <p>© 2024 SpeedTest Pro | Для курсовой работы по разработке ПО</p>
+            <p>© 2025 InternetPulse | Для курсовой работы по разработке ПО</p>
         </footer>
     </div>
 
-    <!-- Подключаем Chart.js -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <!-- Подключаем наш JavaScript -->
     <script src="{% static 'js/script.js' %}"></script>
 </body>
 </html>

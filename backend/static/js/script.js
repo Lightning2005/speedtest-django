@@ -1,8 +1,11 @@
 class SpeedTest {
     constructor() {
         this.testBtn = document.getElementById('startTest');
-        this.refreshBtn = document.getElementById('refreshHistory'); // Может быть null для неавторизованных
+        this.refreshBtn = document.getElementById('refreshHistory');
         this.progressFill = document.getElementById('progressFill');
+        this.ipAddressEl = document.getElementById('ipAddress');
+        this.providerEl = document.getElementById('provider');
+        this.locationEl = document.getElementById('location');
         this.progressText = document.getElementById('progressText');
         this.statusMessage = document.getElementById('statusMessage');
 
@@ -30,7 +33,24 @@ class SpeedTest {
         }
 
         // Добавляем анимацию при загрузке
+        this.loadConnectionInfo();
         this.animateCards();
+    }
+
+    getCsrfToken() {
+        const name = 'csrftoken';
+        let cookieValue = null;
+        if (document.cookie && document.cookie !== '') {
+            const cookies = document.cookie.split(';');
+            for (let i = 0; i < cookies.length; i++) {
+                const cookie = cookies[i].trim();
+                if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                    cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                    break;
+                }
+            }
+        }
+        return cookieValue;
     }
 
     animateCards() {
@@ -56,24 +76,24 @@ class SpeedTest {
             // 1. Ping тест
             await this.updateProgress(10, 'Измеряем ping...');
             const ping = await this.testPing();
-            this.updateResult(this.pingValue, this.pingCard, ping, 'мс', 50, 200);
+            this.updateResult(this.pingValue, this.pingCard, ping, 'мс', 30, 100, 'less');
 
             // 2. Download тест
             await this.updateProgress(40, 'Измеряем скорость скачивания...');
             const download = await this.testDownload();
-            this.updateResult(this.downloadValue, this.downloadCard, download, 'Мбит/с', 10, 100);
+            this.updateResult(this.downloadValue, this.downloadCard, download, 'Мбит/с', 50, 20);
 
             // 3. Upload тест
             await this.updateProgress(70, 'Измеряем скорость загрузки...');
             const upload = await this.testUpload();
-            this.updateResult(this.uploadValue, this.uploadCard, upload, 'Мбит/с', 5, 50);
+            this.updateResult(this.uploadValue, this.uploadCard, upload, 'Мбит/с', 20, 10);
 
             // 4. Сохраняем результаты
             await this.updateProgress(90, 'Сохраняем результаты...');
             await this.saveResults(ping, download, upload);
 
             await this.updateProgress(100, 'Тест завершен!');
-            this.showStatus('✅ Тест успешно завершен! Результаты сохранены.', 'success');
+            this.showStatus('✅ Тест успешно завершен!', 'success');
 
             // Обновляем историю
             setTimeout(() => this.loadHistory(), 1000);
@@ -138,36 +158,35 @@ class SpeedTest {
     }
 
     async testUpload() {
-        const size = 1 * 1024 * 1024; // 1 MB (меньше для стабильности)
-
-        // Генерируем тестовые данные
-        const data = new Uint8Array(size);
-        for (let i = 0; i < size; i++) {
-            data[i] = Math.floor(Math.random() * 256);
-        }
-
-        const start = performance.now();
-
         try {
-            await fetch(`/api/upload/?start_time=${start}`, {
+            const testData = new ArrayBuffer(1024 * 1024); // 1 МБ данных
+            const startTime = performance.now();
+
+            console.log('Отправляю upload запрос...'); // ← для отладки
+
+            const response = await fetch('/api/upload/', {
                 method: 'POST',
-                body: data,
+                body: testData,
                 headers: {
-                    'Content-Type': 'application/octet-stream'
+                    'Content-Type': 'application/octet-stream',
+                    'X-CSRFToken': this.getCsrfToken()
                 }
             });
 
-            const end = performance.now();
-            const duration = (end - start) / 1000;
+            console.log('Upload ответ:', response.status); // ← для отладки
 
-            // Расчет скорости
-            const speed = (size * 8) / (duration * 1000000);
+            if (!response.ok) throw new Error(`HTTP ${response.status}`);
 
-            // Ограничиваем разумными значениями
+            const endTime = performance.now();
+            const duration = (endTime - startTime) / 1000; // секунды
+            const sizeInBits = 8; // 1 МБ = 8 Мбит
+            const speed = sizeInBits / duration;
+
+            console.log('Upload скорость:', speed, 'duration:', duration); // ← для отладки
+
             return Math.min(speed, 1000);
-
         } catch (error) {
-            console.error('Upload test failed:', error);
+            console.error('Upload test error:', error);
             return 0;
         }
     }
@@ -221,6 +240,42 @@ class SpeedTest {
         }
     }
 
+    async loadConnectionInfo() {
+        try {
+            // Используем наш endpoint
+            const response = await fetch('/api/ipinfo/');
+            const data = await response.json();
+
+            // Обновляем элементы
+            if (this.ipAddressEl) {
+                this.ipAddressEl.textContent = data.ip || 'Не определен';
+                this.ipAddressEl.style.color = data.ip.includes('127.0.0.1') ? '#FF9800' : '#4CAF50';
+            }
+
+            if (this.providerEl) {
+                this.providerEl.textContent = data.provider || data.isp || 'Не определен';
+            }
+
+            if (this.locationEl) {
+                const city = data.city || '';
+                const country = data.country || '';
+                if (city && country) {
+                    this.locationEl.textContent = `${city}, ${country}`;
+                } else if (city || country) {
+                    this.locationEl.textContent = city || country;
+                } else {
+                    this.locationEl.textContent = 'Не определено';
+                }
+            }
+        } catch (error) {
+            console.log('Ошибка получения информации о подключении');
+            // Устанавливаем значения по умолчанию
+            if (this.ipAddressEl) this.ipAddressEl.textContent = '127.0.0.1 (локально)';
+            if (this.providerEl) this.providerEl.textContent = 'Локальная сеть';
+            if (this.locationEl) this.locationEl.textContent = 'Локальный сервер';
+        }
+    }
+
     updateHistoryTable(history) {
         const tableBody = document.querySelector('#historyTable tbody');
         tableBody.innerHTML = '';
@@ -257,19 +312,22 @@ class SpeedTest {
     }
 
     updateChart(history) {
-        const ctx = document.getElementById('speedChart').getContext('2d');
+        const canvasContainer = document.querySelector('.chart-container');
+        const ctx = document.getElementById('speedChart');
 
-        // Сортируем по времени (старые -> новые)
-        const sortedHistory = [...history].reverse();
+        if (!ctx) {
+            console.error('Элемент speedChart не найден');
+            return;
+        }
 
-        if (sortedHistory.length === 0) {
-            if (this.chart) {
-                this.chart.destroy();
-                this.chart = null;
-            }
+        // Уничтожаем старый график
+        if (this.chart) {
+            this.chart.destroy();
+            this.chart = null;
+        }
 
-            // Показываем сообщение, если нет данных
-            const canvasContainer = document.querySelector('.chart-container');
+        // Проверяем данные
+        if (!history || history.length === 0) {
             canvasContainer.innerHTML = `
                 <div style="display: flex; align-items: center; justify-content: center; height: 100%; color: #666;">
                     <i class="fas fa-chart-line" style="font-size: 48px; margin-right: 15px;"></i>
@@ -282,16 +340,18 @@ class SpeedTest {
             return;
         }
 
-        const labels = sortedHistory.map((item, index) => {
+        // Сортируем по времени
+        const sortedHistory = [...history].sort((a, b) =>
+            new Date(a.timestamp) - new Date(b.timestamp)
+        );
+
+        const labels = sortedHistory.map((item) => {
             const date = new Date(item.timestamp);
-            return `${date.getHours()}:${date.getMinutes().toString().padStart(2, '0')}`;
+            return `${date.getHours().toString().padStart(2, '0')}:${date.getMinutes().toString().padStart(2, '0')}`;
         });
 
-        if (this.chart) {
-            this.chart.destroy();
-        }
-
-        this.chart = new Chart(ctx, {
+        // Создаем график
+        this.chart = new Chart(ctx.getContext('2d'), {
             type: 'line',
             data: {
                 labels: labels,
@@ -322,10 +382,6 @@ class SpeedTest {
                 plugins: {
                     legend: {
                         position: 'top',
-                    },
-                    tooltip: {
-                        mode: 'index',
-                        intersect: false
                     }
                 },
                 scales: {
@@ -335,38 +391,38 @@ class SpeedTest {
                             display: true,
                             text: 'Скорость (Мбит/с)',
                             color: '#666'
-                        },
-                        grid: {
-                            color: 'rgba(0,0,0,0.05)'
-                        }
-                    },
-                    x: {
-                        grid: {
-                            color: 'rgba(0,0,0,0.05)'
                         }
                     }
-                },
-                interaction: {
-                    intersect: false,
-                    mode: 'nearest'
                 }
             }
         });
     }
 
-    updateResult(element, card, value, unit, goodThreshold, averageThreshold) {
+    updateResult(element, card, value, unit, goodThreshold, averageThreshold, type = 'more') {
         // Анимация счетчика
         this.animateCounter(element, value, 1000);
 
         // Обновляем класс карточки в зависимости от результата
         card.classList.remove('good', 'average', 'poor');
 
-        if (value >= goodThreshold) {
-            card.classList.add('good');
-        } else if (value >= averageThreshold) {
-            card.classList.add('average');
+        if (type === 'more') {
+            // Чем БОЛЬШЕ значение - тем ЛУЧШЕ (download, upload)
+            if (value >= goodThreshold) {
+                card.classList.add('good');
+            } else if (value >= averageThreshold) {
+                card.classList.add('average');
+            } else {
+                card.classList.add('poor');
+            }
         } else {
-            card.classList.add('poor');
+            // Чем МЕНЬШЕ значение - тем ЛУЧШЕ (ping)
+            if (value <= goodThreshold) {
+                card.classList.add('good');
+            } else if (value <= averageThreshold) {
+                card.classList.add('average');
+            } else {
+                card.classList.add('poor');
+            }
         }
 
         // Добавляем анимацию
@@ -471,7 +527,8 @@ document.addEventListener('DOMContentLoaded', () => {
     window.speedTest = new SpeedTest();
 
     // Добавляем информацию о разработчике в консоль
-    console.log('%c🚀 SpeedTest Pro', 'font-size: 20px; font-weight: bold; color: #4a6fa5;');
+    console.log('%c💓 InternetPulse', 'font-size: 20px; font-weight: bold; color: #4a6fa5;');
     console.log('%cКурсовая работа по разработке ПО', 'color: #666;');
     console.log('%chttps://github.com', 'color: #4a6fa5;');
 });
+
