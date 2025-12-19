@@ -73,13 +73,22 @@ def upload_test(request):
 
 @csrf_exempt
 def save_result(request):
+    """Сохранение результатов теста в БД"""
     if request.method == 'POST':
         try:
             data = json.loads(request.body.decode('utf-8'))
 
-            # Получаем информацию о местоположении
-            ip_info = get_ip_info()
+            # ПОПРАВКА: Получаем IP клиента (так же как в get_ip_info_view)
+            x_forwarded_for = request.META.get('HTTP_X_FORWARDED_FOR')
+            if x_forwarded_for:
+                client_ip = x_forwarded_for.split(',')[0].strip()
+            else:
+                client_ip = request.META.get('REMOTE_ADDR')
 
+            # Получаем информацию о местоположении для этого IP
+            ip_info = get_ip_info(client_ip)  # Передаем IP!
+
+            # ... остальной код функции без изменений ...
             ping = max(0, min(float(data.get('ping', 0)), 1000))
             download = max(0, min(float(data.get('download', 0)), 2000))
             upload = max(0, min(float(data.get('upload', 0)), 2000))
@@ -88,16 +97,16 @@ def save_result(request):
             if request.user.is_authenticated:
                 result = SpeedTestResult(
                     user=request.user,
-                    ip_address=ip_info['ip'],
+                    ip_address=ip_info['ip'],  # Теперь будет IP пользователя
                     ping=ping,
                     download=download,
                     upload=upload,
-                    server='local',
+                    server='pythonanywhere',
                     provider=ip_info['isp'],
                     city=ip_info['city'],
                     country=ip_info['country'],
-                    latitude=ip_info['lat'],
-                    longitude=ip_info['lon']
+                    latitude=ip_info.get('lat', 0),
+                    longitude=ip_info.get('lon', 0)
                 )
                 result.save()
 
@@ -144,9 +153,15 @@ def get_history(request):
 
 
 def get_ip_info_view(request):
+    """Возвращает информацию о IP клиента"""
     try:
-        # Получаем IP клиента
-        client_ip = request.META.get('REMOTE_ADDR')
+        # ВАЖНО: PythonAnywhere передает реальный IP в HTTP_X_FORWARDED_FOR
+        x_forwarded_for = request.META.get('HTTP_X_FORWARDED_FOR')
+        if x_forwarded_for:
+            # Берем первый IP из списка
+            client_ip = x_forwarded_for.split(',')[0].strip()
+        else:
+            client_ip = request.META.get('REMOTE_ADDR')
 
         # Если localhost, возвращаем тестовые данные
         if client_ip in ['127.0.0.1', '::1']:
@@ -157,9 +172,9 @@ def get_ip_info_view(request):
                 'country': 'Россия'
             })
 
-        # Иначе используем наш сервис
+        # Используем сервис с переданным IP
         from .ip_service import get_ip_info
-        ip_data = get_ip_info()
+        ip_data = get_ip_info(client_ip)
         return JsonResponse(ip_data)
 
     except Exception as e:
